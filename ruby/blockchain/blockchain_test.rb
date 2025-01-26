@@ -1,4 +1,5 @@
 require 'minitest/autorun'
+require 'minitest/benchmark'
 require_relative 'blockchain'
 
 class TestBlockchain < Minitest::Test
@@ -37,5 +38,21 @@ class TestBlockchain < Minitest::Test
     assert b1.time > b0.time
     assert b2.time > b1.time
     assert Time.now.to_i > b2.time
+  end
+end
+
+if ENV['RUN_BENCH'] == 'true'
+  class BenchBlockchain < Minitest::Benchmark
+    def bench_proof_of_work
+      b0 = Blockchain::Block.new('data 1', Blockchain::GENESIS, difficulty: '00')
+      1.upto(5) do |factor|
+        difficulty = '0' * factor
+        t_start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+        block = Blockchain::Block.new('data 2', b0.hash, difficulty: difficulty)
+        delta = Process.clock_gettime(Process::CLOCK_MONOTONIC) - t_start
+        hashrate = block.nonce / delta
+        puts "Hash Rate (#{difficulty}): #{hashrate.to_i}/s"
+      end
+    end
   end
 end
