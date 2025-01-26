@@ -7,21 +7,28 @@ module Blockchain
   class Block
     attr_reader :data
     attr_reader :prev
-    attr_reader :hash
+    attr_reader :difficulty
+    attr_reader :time
     attr_reader :nonce
 
-    def initialize(data, prev)
+    def initialize(data, prev, difficulty: '0000')
       @data         = data
       @prev         = prev
-      @nonce, @hash = compute_hash_with_proof_of_work
+      @difficulty   = difficulty
+      @nonce, @time = compute_hash_with_proof_of_work
     end
 
-    def compute_hash_with_proof_of_work(difficulty = '0000')
+    def hash
+      Digest::SHA256.hexdigest("#{@nonce}#{@time}#{@difficulty}#{@prev}#{@data}")
+    end
+
+    def compute_hash_with_proof_of_work
       nonce = 0
+      time  = Time.now.to_i
       loop do
-        hash = Digest::SHA256.hexdigest("#{nonce}#{prev}#{data}")
+        hash = Digest::SHA256.hexdigest("#{nonce}#{time}#{@difficulty}#{@prev}#{@data}")
         if hash.start_with?(difficulty)
-          return [nonce, hash]
+          return [nonce, time]
         else
           nonce += 1
         end
@@ -29,11 +36,3 @@ module Blockchain
     end
   end
 end
-
-b0 = Blockchain::Block.new('data 1', Blockchain::GENESIS)
-b1 = Blockchain::Block.new('data 2', b0.hash)
-b2 = Blockchain::Block.new('data 3', b1.hash)
-b3 = Blockchain::Block.new('data 4', b2.hash)
-
-blockchain = [b0, b1, b2, b3]
-pp blockchain
