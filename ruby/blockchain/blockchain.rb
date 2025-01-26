@@ -16,7 +16,7 @@ module Blockchain
       @nonce, @hash = compute_hash_with_proof_of_work
     end
 
-    def compute_hash_with_proof_of_work(difficulty = '00')
+    def compute_hash_with_proof_of_work(difficulty = '0000')
       nonce = 0
       loop do
         hash = Digest::SHA256.hexdigest("#{nonce}#{prev}#{data}")
