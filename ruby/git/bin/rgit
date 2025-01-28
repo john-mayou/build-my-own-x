@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+cmd, *args = ARGV
+
+if cmd.nil?
+  $stderr.puts "Usage: rgit <command> [<args>]"
+  exit 1
+end
+
+path_to_cmd = File.expand_path("rgit-#{cmd}", __FILE__)
+if !File.exist? path_to_cmd
+  $stderr.puts "No such command"
+  exit 1
+end
+
+exec path_to_cmd, *args

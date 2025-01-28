@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+RGIT_DIR = '.rgit'.freeze
+
+if Dir.exist? RGIT_DIR
+  $stderr.puts 'Existing rgit project'
+  exit 1
+end
+
+Dir.mkdir RGIT_DIR
+
+Dir.mkdir "#{RGIT_DIR}/objects"
+Dir.mkdir "#{RGIT_DIR}/objects/info"
+Dir.mkdir "#{RGIT_DIR}/objects/pack"
+
+Dir.mkdir "#{RGIT_DIR}/refs"
+Dir.mkdir "#{RGIT_DIR}/refs/heads"
+Dir.mkdir "#{RGIT_DIR}/refs/tags"
+
+File.open("#{RGIT_DIR}/HEAD", 'w') do |file|
+  file.puts 'ref: refs/heads/master'
+end
+
+$stdout.puts "rgit initialized in #{RGIT_DIR}"
