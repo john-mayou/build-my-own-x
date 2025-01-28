@@ -1,7 +1,3 @@
-# Programming Blockchains Step-by-Step from Scratch
+# Blockchain
 
-A simple blockchain implementation in Ruby.
-
-## Meta
-
-[Programming Blockchains Step-by-Step (Manuscripts Book Edition)](https://github.com/yukimotopress/programming-blockchains-step-by-step)
+A simple blockchain implementation written in Ruby, inspired by the concepts outlined in this [guide](https://github.com/yukimotopress/programming-blockchains-step-by-step).
