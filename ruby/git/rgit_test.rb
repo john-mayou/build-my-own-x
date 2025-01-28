@@ -9,7 +9,7 @@ class TestRGitV1 < Minitest::Test
   RGIT_ENV_ARGS = 'IS_TEST=true'
   RGIT_LOGS = false
 
-  SHA1_REGEX = /[a-zA-Z0-9]{4}/
+  SHA1_REGEX = /[a-zA-Z0-9]{40}/
 
   def setup
     @dir = Dir.mktmpdir
